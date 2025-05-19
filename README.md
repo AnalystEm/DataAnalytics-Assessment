@@ -83,12 +83,12 @@ The main challenge was that there was no column in the plans\_plan table that di
 
 
 
-Question 4 Explanation
+# Question 4 Explanation
 
 Task:
 For each customer, assuming the profit per transaction is 0.1% of the transaction value, calculate account tenure (months since signup), total transactions, and estimated CLV. The CLV formula is (total\_transactions / tenure) \* 12 \* 0.001. Results should be ordered by estimated CLV from highest to lowest.
 
-My Approach:
+## My Approach:
 
 * I created a CTE named customer\_activity where I calculated the total number of savings transactions for each customer using COUNT, and retrieved their signup date (date\_joined) from the users\_customuser table.
 * In a second CTE called customer\_tenure\_clv, I calculated tenure in months using PERIOD\_DIFF between the current date and the customer’s date\_joined.
@@ -97,5 +97,5 @@ My Approach:
 * I rounded the final CLV to two decimal places for better readability.
 * In the final SELECT, I displayed customer ID, full name, tenure in months, total transactions, and the estimated CLV. I ordered the result in descending order of CLV.
 
-Challenges:
+## Challenges:
 There was no direct way to compute tenure in months using a built-in column, so I used PERIOD\_DIFF with DATE\_FORMAT to compare the year-month values of the current date and the signup date. I also made sure to avoid division errors by making tenure at least 1.
