@@ -1,10 +1,10 @@
 
-Question 1 Explanation
+# Question 1 Explanation
 
 Task:
 Write a query to find customers who have at least one funded savings plan and at least one funded investment plan, sorted by their total deposits in naira (descending).
 
-My Approach:
+## My Approach:
 I joined the three tables:
 
 * users_customuser for customer info
@@ -27,18 +27,18 @@ In the HAVING clause, I ensured each customer had:
 
 I calculated total deposits by summing confirmed_amount, dividing by 100 (to convert from kobo to naira), and rounding to 2 decimal places.
 
-Challenges:
+## Challenges:
 None. The query was straightforward once I realized I needed to use CASE WHEN with HAVING instead of trying to combine the conditions directly in the WHERE clause.
 
 
 
 
-Question 2 Explanation
+# Question 2 Explanation
 
 Task:
 Calculate the average number of transactions per customer per month and categorize them as High Frequency (≥10), Medium Frequency (3–9), or Low Frequency (≤2).
 
-My Approach:
+## My Approach:
 I created a common table expression (CTE) called customer_monthly_avg where I calculated:
 
 The total number of transactions for each customer (total_transactions)
@@ -57,18 +57,18 @@ High Frequency if avg ≥ 10
 
 Finally, I selected the frequency category, counted how many customers were in each group, and calculated the average transactions per month for each group. I ordered the results so High Frequency appears first, followed by Medium and Low.
 
-Challenges:
+## Challenges:
 At first, I had to be careful not to count multiple months for the same customer, which would have led to duplicate rows. To solve this, I used COUNT(DISTINCT DATE_FORMAT(transaction_date, '%Y-%m')) to count unique months only. I also made sure my groupings were clean so each customer appeared only once.
 
 
 
 
-Question 3 Explanation
+# Question 3 Explanation
 
 Task:
 Find all active plans (savings or investments) with no transactions in the last 365 days.
 
-My Approach:
+## My Approach:
 
 * I created a common table expression (CTE) named latest_transactions to get the most recent transaction date for each plan using the MAX function from the savings_savingsaccount table.
 * I joined this CTE with the plans_plan table using plan_id to match each plan with its last known transaction date.
@@ -77,7 +77,7 @@ My Approach:
 * I filtered to include only plans that are active by checking that status_id = 1, is_deleted = 0, and is_archived = 0.
 * I excluded any plan where the type was not savings or investment, and limited the results to only those with no transactions in the last 365 days.
 
-Challenges:
+## Challenges:
 The main challenge was that there was no column in the plans\_plan table that directly states whether a plan is active. I resolved this by analyzing how status_id, is_deleted, and is_archived behave. After checking their values across different plans, I concluded that a combination of status_id = 1, is_deleted = 0, and is_archived = 0 is a reliable way to identify active plans.
 
 
